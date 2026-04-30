@@ -4,6 +4,4 @@
 .env
 .DS_Store
 *.log
-coverage/
-.vercel
-*.db
+node_modules
