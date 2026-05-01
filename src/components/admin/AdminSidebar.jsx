@@ -17,10 +17,7 @@ const navItems = [
   { href: '/admin/speakers', label: 'Intervenants', icon: UserGroupIcon },
 ]
 
-/**
- * Sidebar fixe pour l'espace admin.
- * Apparaît uniquement sur les routes /admin/*.
- */
+
 export default function AdminSidebar() {
   const pathname = usePathname()
 

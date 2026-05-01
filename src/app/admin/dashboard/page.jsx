@@ -7,6 +7,7 @@ import {
   CalendarDaysIcon,
   PlayCircleIcon,
   UserGroupIcon,
+  BuildingOfficeIcon,
   ChartBarIcon,
 } from '@heroicons/react/24/outline'
 
@@ -15,22 +16,26 @@ export default async function AdminDashboard() {
   if (!session) redirect('/login')
 
   // Compteurs en parallèle
-  const [eventsCount, sessionsCount, speakersCount] = await Promise.all([
+  const [eventsCount, sessionsCount, speakersCount, roomsRaw] = await Promise.all([
     prisma.event.count(),
     prisma.session.count(),
     prisma.speaker.count(),
+    prisma.session.findMany({ select: { room: true }, distinct: ['room'] }),
   ])
+  const roomsCount = roomsRaw.filter(r => r.room).length
 
   const stats = [
     { label: 'Événements', count: eventsCount, href: '/admin/events', icon: CalendarDaysIcon, color: 'blue' },
     { label: 'Sessions', count: sessionsCount, href: '/admin/sessions', icon: PlayCircleIcon, color: 'indigo' },
     { label: 'Intervenants', count: speakersCount, href: '/admin/speakers', icon: UserGroupIcon, color: 'violet' },
+    { label: 'Salles', count: roomsCount, href: '/admin/rooms', icon: BuildingOfficeIcon, color: 'emerald' },
   ]
 
   const colorMap = {
     blue: 'bg-blue-100 text-blue-700',
     indigo: 'bg-indigo-100 text-indigo-700',
     violet: 'bg-violet-100 text-violet-700',
+    emerald: 'bg-emerald-100 text-emerald-700',
   }
 
   return (
@@ -44,7 +49,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {stats.map(({ label, count, href, icon: Icon, color }) => (
           <Link key={href} href={href}>
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition group">
@@ -73,6 +78,9 @@ export default async function AdminDashboard() {
           </Link>
           <Link href="/admin/speakers/new" className="bg-violet-600 hover:bg-violet-700 text-white text-sm px-4 py-2 rounded-lg transition font-medium">
             + Nouvel intervenant
+          </Link>
+          <Link href="/admin/rooms" className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg transition font-medium">
+            Voir les salles
           </Link>
         </div>
       </div>
