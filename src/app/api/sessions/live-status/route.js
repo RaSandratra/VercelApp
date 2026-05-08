@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { isSessionLive } from '@/lib/sessionUtils'
 
@@ -20,3 +20,8 @@ export async function GET(req) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
+
+
+
+
+

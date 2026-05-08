@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req) {
@@ -7,7 +7,7 @@ export async function GET(req) {
     const ids = searchParams.get('ids')
 
     // BUG FIX: La page /favourites appelle /api/sessions?ids=... mais cette route n'existait pas.
-    // Elle appelait /api/events. Ajout du support du paramètre ids.
+    // Elle appelait /api/events. Ajout du support du paramÃ¨tre ids.
     const events = await prisma.event.findMany({
       ...(ids ? { where: { id: { in: ids.split(',') } } } : {}),
       orderBy: { startDate: 'desc' },
@@ -18,3 +18,8 @@ export async function GET(req) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
+
+
+
+
+

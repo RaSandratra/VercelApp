@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useLiveStatus } from '@/hooks/useLiveStatus'
 import { useFavorites } from '@/hooks/useFavorites'
@@ -12,7 +12,7 @@ export default function PlanningGrid({ sessions }) {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites()
 
   if (!sessions || sessions.length === 0) {
-    return <div className="text-gray-500 text-center py-8">Aucune session programmée.</div>
+    return <div className="text-gray-400 text-center py-8">Aucune session programmÃ©e.</div>
   }
 
   const rooms = [...new Set(sessions.map(s => s.room).filter(Boolean))].sort()
@@ -40,19 +40,19 @@ export default function PlanningGrid({ sessions }) {
     const favori = isFavorite(session.id)
     if (favori) {
       removeFavorite(session.id)
-      toast('Retiré des favoris', { icon: '★' })
+      toast('RetirÃ© des favoris', { icon: 'â˜…' })
     } else {
       addFavorite(session.id)
-      toast.success('Ajouté aux favoris !')
+      toast.success('AjoutÃ© aux favoris !')
     }
   }
 
   return (
     <>
       {/* Vue tableau (desktop) */}
-      <div className="hidden md:block overflow-x-auto shadow-sm rounded-xl border border-gray-200">
-        <table className="min-w-full bg-white text-sm">
-          <thead className="bg-gray-50 text-gray-600">
+      <div className="hidden md:block overflow-x-auto shadow-sm rounded-xl border border-white/10">
+        <table className="min-w-full bg-[#1F2937] text-sm">
+          <thead className="bg-[#111827] text-gray-400">
             <tr>
               <th className="px-4 py-3 text-left font-semibold border-b text-xs uppercase tracking-wide">
                 Horaire
@@ -66,15 +66,15 @@ export default function PlanningGrid({ sessions }) {
           </thead>
           <tbody>
             {sortedTimes.map(time => (
-              <tr key={time} className="border-b hover:bg-gray-50 transition">
-                <td className="px-4 py-3 font-semibold text-gray-700 align-top whitespace-nowrap text-sm">
+              <tr key={time} className="border-b hover:bg-[#111827] transition">
+                <td className="px-4 py-3 font-semibold text-gray-400 align-top whitespace-nowrap text-sm">
                   {time}
                 </td>
                 {rooms.map(room => {
                   const session = getSessionAt(time, room)
                   if (!session) {
                     return (
-                      <td key={`${time}-${room}`} className="px-4 py-3 text-gray-300 align-top">—</td>
+                      <td key={`${time}-${room}`} className="px-4 py-3 text-gray-300 align-top">â€”</td>
                     )
                   }
                   const isLive = liveMap[session.id] || false
@@ -87,21 +87,21 @@ export default function PlanningGrid({ sessions }) {
                         <div className="flex items-start justify-between gap-2">
                           <button
                             onClick={() => router.push(`/sessions/${session.id}`)}
-                            className="text-blue-700 hover:text-blue-900 font-medium text-left hover:underline"
+                            className="text-[#10B981] hover:text-emerald-300 font-medium text-left hover:underline"
                           >
                             {session.title}
                           </button>
                           {isLive && <LiveBadge />}
                         </div>
-                        {speakers && <div className="text-xs text-gray-500">{speakers}</div>}
-                        <div className="text-xs text-gray-400">jusqu'à {formatTime(session.endTime)}</div>
+                        {speakers && <div className="text-xs text-gray-400">{speakers}</div>}
+                        <div className="text-xs text-gray-400">jusqu'Ã  {formatTime(session.endTime)}</div>
                         <button
                           onClick={() => handleFavoriteToggle(session)}
                           className={`text-sm mt-1 self-start flex items-center gap-1 transition ${
                             favori ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'
                           }`}
                         >
-                          {favori ? '★ Favori' : '☆ Ajouter'}
+                          {favori ? 'â˜… Favori' : 'â˜† Ajouter'}
                         </button>
                       </div>
                     </td>
@@ -120,30 +120,30 @@ export default function PlanningGrid({ sessions }) {
           const favori = isFavorite(session.id)
           const speakers = session.speakers?.map(s => s.name).join(', ') || ''
           return (
-            <div key={session.id} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <div key={session.id} className="bg-[#1F2937] rounded-xl border border-white/10 shadow-sm p-4">
               <div className="flex items-start justify-between gap-2 mb-1">
                 <button
                   onClick={() => router.push(`/sessions/${session.id}`)}
-                  className="text-blue-700 font-semibold text-left hover:underline leading-snug"
+                  className="text-[#10B981] font-semibold text-left hover:underline leading-snug"
                 >
                   {session.title}
                 </button>
                 {isLive && <LiveBadge />}
               </div>
               {session.room && (
-                <p className="text-xs text-gray-500 mb-1">📍 {session.room}</p>
+                <p className="text-xs text-gray-400 mb-1">ðŸ“ {session.room}</p>
               )}
               <p className="text-xs text-gray-400 mb-1">
-                {formatTime(session.startTime)} – {formatTime(session.endTime)}
+                {formatTime(session.startTime)} â€“ {formatTime(session.endTime)}
               </p>
-              {speakers && <p className="text-xs text-gray-500 mb-2">{speakers}</p>}
+              {speakers && <p className="text-xs text-gray-400 mb-2">{speakers}</p>}
               <button
                 onClick={() => handleFavoriteToggle(session)}
                 className={`text-sm flex items-center gap-1 transition ${
                   favori ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'
                 }`}
               >
-                {favori ? '★ Favori' : '☆ Ajouter aux favoris'}
+                {favori ? 'â˜… Favori' : 'â˜† Ajouter aux favoris'}
               </button>
             </div>
           )
@@ -152,3 +152,8 @@ export default function PlanningGrid({ sessions }) {
     </>
   )
 }
+
+
+
+
+

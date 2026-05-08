@@ -47,13 +47,14 @@ model Speaker {
 }
 
 model Question {
-  id          String    @id @default(cuid())
-  content     String
-  authorName  String?
-  upvotes     Int       @default(0)
-  sessionId   String
-  session     Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  createdAt   DateTime  @default(now())
+  id            String    @id @default(cuid())
+  content       String
+  authorName    String?
+  participantId String?   // userId localStorage du participant (optionnel, rétrocompatible)
+  upvotes       Int       @default(0)
+  sessionId     String
+  session       Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
 }
 
 model Admin {

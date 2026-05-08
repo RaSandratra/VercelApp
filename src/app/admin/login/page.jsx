@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -15,14 +15,18 @@ export default function AdminLogin() {
     else router.push('/admin/dashboard')
   }
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-96">
+    <div className="flex min-h-screen items-center justify-center bg-[#1F2937]">
+      <form onSubmit={handleSubmit} className="bg-[#1F2937] p-6 rounded shadow-md w-96">
         <h1 className="text-2xl font-bold mb-4 text-center">Admin EventSync</h1>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <input type="email" placeholder="Email" className="w-full border p-2 mb-2 rounded" value={email} onChange={e => setEmail(e.target.value)} required />
         <input type="password" placeholder="Mot de passe" className="w-full border p-2 mb-4 rounded" value={password} onChange={e => setPassword(e.target.value)} required />
-        <button type="submit" className="bg-blue-600 text-white p-2 w-full rounded">Se connecter</button>
+        <button type="submit" className="bg-[#10B981] text-white p-2 w-full rounded">Se connecter</button>
       </form>
     </div>
   )
 }
+
+
+
+

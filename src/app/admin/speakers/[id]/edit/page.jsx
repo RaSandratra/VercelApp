@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 
@@ -42,7 +42,7 @@ export default function EditSpeakerPage() {
       router.push('/admin/speakers')
     } else {
       const data = await res.json()
-      alert(`Erreur : ${data.error || 'Mise à jour échouée'}`)
+      alert(`Erreur : ${data.error || 'Mise Ã  jour Ã©chouÃ©e'}`)
     }
   }
 
@@ -50,7 +50,7 @@ export default function EditSpeakerPage() {
 
   return (
     <div className="max-w-xl mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">Modifier l’intervenant</h1>
+      <h1 className="text-2xl font-bold mb-6">Modifier lâ€™intervenant</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input type="text" placeholder="Nom complet" className="w-full border p-2 rounded"
                value={form.name} onChange={e => setForm({...form, name: e.target.value})} required />
@@ -60,8 +60,12 @@ export default function EditSpeakerPage() {
                value={form.photoUrl} onChange={e => setForm({...form, photoUrl: e.target.value})} />
         <input type="text" placeholder='Liens JSON (ex: {"twitter":"https://..."})' className="w-full border p-2 rounded"
                value={form.links} onChange={e => setForm({...form, links: e.target.value})} />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Mettre à jour</button>
+        <button type="submit" className="bg-[#10B981] text-white px-4 py-2 rounded">Mettre Ã  jour</button>
       </form>
     </div>
   )
 }
+
+
+
+

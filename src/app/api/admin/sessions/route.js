@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
@@ -22,7 +22,7 @@ export async function POST(req) {
         room,
         capacity: capacity ? parseInt(capacity) : null,
         eventId,
-        // BUG FIX: speakerIds peut être undefined si non sélectionné
+        // BUG FIX: speakerIds peut Ãªtre undefined si non sÃ©lectionnÃ©
         speakers: { connect: (speakerIds || []).map(id => ({ id })) },
       },
     })
@@ -32,3 +32,8 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
+
+
+
+
+

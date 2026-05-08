@@ -1,6 +1,4 @@
-// BUG FIX: Ce fichier avait 'use client' en haut mais utilisait prisma directement,
-// ce qui est impossible côté client. Retiré 'use client' pour en faire un composant serveur.
-import { prisma } from '@/lib/prisma'
+﻿import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
@@ -12,14 +10,13 @@ export default async function RoomPage({ params }) {
     include: { speakers: true, event: true },
     orderBy: { startTime: 'asc' },
   })
-
-  // BUG FIX: La condition notFound était incorrecte (double requête inutile)
+  
   if (sessions.length === 0) notFound()
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-2">Salle : {roomName}</h1>
-      <p className="text-gray-600 mb-6">{sessions.length} session(s)</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-2 text-white">Salle : {roomName}</h1>
+      <p className="text-gray-300 mb-6">{sessions.length} session(s)</p>
       <div className="space-y-4">
         {sessions.map(session => {
           const now = new Date()
@@ -28,18 +25,18 @@ export default async function RoomPage({ params }) {
             <Link
               key={session.id}
               href={`/sessions/${session.id}`}
-              className="block border rounded-lg p-4 hover:shadow-md transition"
+              className="block bg-[#111827] border border-gray-700 rounded-lg p-4 hover:shadow-lg hover:border-gray-600 transition"
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-xl font-semibold">{session.title}</h2>
-                  <p className="text-gray-600 text-sm">{session.event.title}</p>
-                  <p className="text-gray-500 text-sm mt-1">
+                  <h2 className="text-xl font-semibold text-white">{session.title}</h2>
+                  <p className="text-gray-300 text-sm">{session.event.title}</p>
+                  <p className="text-gray-400 text-sm mt-1">
                     {new Date(session.startTime).toLocaleString('fr-FR')} -{' '}
                     {new Date(session.endTime).toLocaleString('fr-FR')}
                   </p>
                   {session.speakers.length > 0 && (
-                    <div className="text-sm text-gray-500 mt-1">
+                    <div className="text-sm text-gray-400 mt-1">
                       Intervenants : {session.speakers.map(s => s.name).join(', ')}
                     </div>
                   )}
@@ -57,3 +54,8 @@ export default async function RoomPage({ params }) {
     </div>
   )
 }
+
+
+
+
+

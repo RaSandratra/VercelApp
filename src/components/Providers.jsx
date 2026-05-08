@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from '@/context/AuthContext'
@@ -31,3 +31,8 @@ export default function Providers({ children }) {
     </SessionProvider>
   )
 }
+
+
+
+
+

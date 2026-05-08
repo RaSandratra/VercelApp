@@ -1,17 +1,19 @@
-import AdminSidebar from '@/components/admin/AdminSidebar'
+﻿import AdminSidebar from '@/components/admin/AdminSidebar'
 
-/**
- * Layout pour l'espace admin.
- * Intègre la sidebar fixe et décale le contenu principal.
- */
 export default function AdminLayout({ children }) {
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen bg-[#111827] text-[#F9FAFB]">
       <AdminSidebar />
-      {/* Contenu décalé de la largeur de la sidebar (w-56 = 224px) */}
-      <main className="flex-1 ml-56 min-h-screen">
-        {children}
+      <main className="min-h-screen lg:ml-64">
+        <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          {children}
+        </div>
       </main>
     </div>
   )
 }
+
+
+
+
+

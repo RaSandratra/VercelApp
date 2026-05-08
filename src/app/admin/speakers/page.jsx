@@ -1,68 +1,107 @@
-'use client'
-import { useEffect, useState } from 'react'
+﻿'use client'
+
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { MagnifyingGlassIcon, PlusIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 import { LoadingSpinner, SpeakerAvatar } from '@/components/ui'
-import { UserGroupIcon, PlusIcon } from '@heroicons/react/24/outline'
 
 export default function AdminSpeakersPage() {
   const [speakers, setSpeakers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetch('/api/speakers')
-      .then(res => res.json())
-      .then(data => { setSpeakers(data); setLoading(false) })
-      .catch(() => { toast.error('Erreur de chargement'); setLoading(false) })
+      .then((res) => res.json())
+      .then((data) => {
+        setSpeakers(Array.isArray(data) ? data : [])
+        setLoading(false)
+      })
+      .catch(() => {
+        toast.error('Erreur de chargement')
+        setLoading(false)
+      })
   }, [])
 
   const handleDelete = async (id, name) => {
-    if (!confirm(`Supprimer définitivement "${name}" ?`)) return
+    if (!confirm(`Supprimer dÃ©finitivement "${name}" ?`)) return
     const toastId = toast.loading('Suppression...')
     const res = await fetch(`/api/admin/speakers/${id}`, { method: 'DELETE', credentials: 'include' })
+
     if (res.ok) {
-      setSpeakers(prev => prev.filter(s => s.id !== id))
-      toast.success('Intervenant supprimé', { id: toastId })
+      setSpeakers((prev) => prev.filter((speaker) => speaker.id !== id))
+      toast.success('Intervenant supprimÃ©', { id: toastId })
     } else {
       toast.error('Erreur lors de la suppression', { id: toastId })
     }
   }
 
+  const filtered = useMemo(() => {
+    const value = search.toLowerCase()
+    return speakers.filter((speaker) =>
+      speaker.name?.toLowerCase().includes(value) ||
+      speaker.bio?.toLowerCase().includes(value)
+    )
+  }, [speakers, search])
+
   return (
-    <div className="p-8">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <UserGroupIcon className="w-7 h-7 text-violet-600" />
-          Intervenants
-        </h1>
-        <Link href="/admin/speakers/new" className="flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-sm px-4 py-2 rounded-lg transition font-medium">
-          <PlusIcon className="w-4 h-4" />
-          Nouvel intervenant
-        </Link>
-      </div>
+    <div className="space-y-6">
+      <section className="rounded-lg border border-white/10 bg-[#1F2937] p-6 shadow-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-wide text-[#10B981]">Annuaire</p>
+            <h1 className="mt-1 flex items-center gap-2 text-3xl font-black text-[#F9FAFB]">
+              <UserGroupIcon className="h-8 w-8 text-[#10B981]" />
+              Intervenants
+            </h1>
+            <p className="mt-2 text-sm text-gray-400">{speakers.length} profil{speakers.length > 1 ? 's' : ''} disponible{speakers.length > 1 ? 's' : ''}</p>
+          </div>
+          <Link
+            href="/admin/speakers/new"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#10B981] px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+          >
+            <PlusIcon className="h-4 w-4" />
+            Nouvel intervenant
+          </Link>
+        </div>
+
+        <div className="relative mt-5 max-w-md">
+          <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Rechercher par nom ou bio..."
+            className="w-full rounded-lg border-white/15 bg-[#1F2937] py-2.5 pl-10 pr-4 text-sm text-[#F9FAFB] placeholder:text-gray-400"
+          />
+        </div>
+      </section>
 
       {loading ? (
-        <LoadingSpinner />
-      ) : speakers.length === 0 ? (
-        <div className="bg-white rounded-xl border p-12 text-center text-gray-400">Aucun intervenant.</div>
+        <div className="rounded-lg border border-white/10 bg-[#1F2937] shadow-sm">
+          <LoadingSpinner />
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="rounded-lg border border-white/10 bg-[#1F2937] p-12 text-center text-gray-400 shadow-sm">
+          {search ? 'Aucun intervenant ne correspond Ã  cette recherche.' : 'Aucun intervenant.'}
+        </div>
       ) : (
-        <div className="grid gap-3">
-          {speakers.map(speaker => (
-            <div key={speaker.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center justify-between gap-4 hover:shadow-sm transition">
-              <div className="flex items-center gap-3 min-w-0">
-                <SpeakerAvatar name={speaker.name} photoUrl={speaker.photoUrl} size="sm" />
-                <div className="min-w-0">
-                  <p className="font-semibold text-gray-800">{speaker.name}</p>
-                  {speaker.bio && (
-                    <p className="text-sm text-gray-500 truncate max-w-xs">{speaker.bio}</p>
-                  )}
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((speaker) => (
+            <div key={speaker.id} className="rounded-lg border border-white/10 bg-[#1F2937] p-5 shadow-sm hover:shadow-md">
+              <div className="flex items-start gap-4">
+                <SpeakerAvatar name={speaker.name} photoUrl={speaker.photoUrl} size="md" />
+                <div className="min-w-0 flex-1">
+                  <h2 className="truncate font-bold text-[#F9FAFB]">{speaker.name}</h2>
+                  <p className="mt-1 line-clamp-3 text-sm leading-6 text-gray-400">{speaker.bio || 'Aucune biographie renseignÃ©e.'}</p>
                 </div>
               </div>
-              <div className="flex gap-3 flex-shrink-0">
-                <Link href={`/admin/speakers/${speaker.id}/edit`} className="text-blue-600 hover:underline text-sm font-medium">
+              <div className="mt-5 flex justify-end gap-2 border-t border-white/10 pt-4">
+                <Link href={`/admin/speakers/${speaker.id}/edit`} className="rounded-md px-3 py-1.5 text-sm font-semibold text-[#10B981] hover:bg-[#10B981]/15">
                   Modifier
                 </Link>
-                <button onClick={() => handleDelete(speaker.id, speaker.name)} className="text-red-500 hover:underline text-sm font-medium">
+                <button onClick={() => handleDelete(speaker.id, speaker.name)} className="rounded-md px-3 py-1.5 text-sm font-semibold text-red-300 hover:bg-red-500/10">
                   Supprimer
                 </button>
               </div>
@@ -73,3 +112,8 @@ export default function AdminSpeakersPage() {
     </div>
   )
 }
+
+
+
+
+

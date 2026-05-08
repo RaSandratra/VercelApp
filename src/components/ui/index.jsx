@@ -1,13 +1,13 @@
-// Composants UI partagés pour éviter la duplication de code
+﻿// Composants UI partagÃ©s pour Ã©viter la duplication de code
 
 /**
  * Indicateur de chargement (spinner).
  */
 export function LoadingSpinner({ message = 'Chargement...' }) {
   return (
-    <div className="flex items-center justify-center gap-3 py-12 text-gray-500">
+    <div className="flex items-center justify-center gap-3 py-12 text-gray-400">
       <svg
-        className="animate-spin h-6 w-6 text-blue-600"
+        className="animate-spin h-6 w-6 text-[#10B981]"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -21,12 +21,12 @@ export function LoadingSpinner({ message = 'Chargement...' }) {
 }
 
 /**
- * Message d'erreur standardisé.
+ * Message d'erreur standardisÃ©.
  */
 export function ErrorMessage({ message }) {
   if (!message) return null
   return (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm flex items-start gap-2">
+    <div className="bg-red-500/10 border border-red-400/30 rounded-lg p-4 text-red-300 text-sm flex items-start gap-2">
       <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" />
       </svg>
@@ -53,7 +53,7 @@ export function SpeakerAvatar({ name, photoUrl, size = 'md' }) {
       <img
         src={photoUrl}
         alt={name}
-        className={`${sizes[size]} rounded-full object-cover border border-gray-200`}
+        className={`${sizes[size]} rounded-full object-cover border border-white/10`}
         onError={(e) => {
           e.target.style.display = 'none'
           e.target.nextSibling.style.display = 'flex'
@@ -64,7 +64,7 @@ export function SpeakerAvatar({ name, photoUrl, size = 'md' }) {
 
   return (
     <div
-      className={`${sizes[size]} rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-semibold flex-shrink-0`}
+      className={`${sizes[size]} rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-semibold flex-shrink-0`}
     >
       {initials}
     </div>
@@ -72,13 +72,18 @@ export function SpeakerAvatar({ name, photoUrl, size = 'md' }) {
 }
 
 /**
- * Badge LIVE animé.
+ * Badge LIVE animÃ©.
  */
 export function LiveBadge() {
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-300 border border-red-400/30">
       <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
       LIVE
     </span>
   )
 }
+
+
+
+
+
