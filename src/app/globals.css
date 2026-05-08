@@ -72,16 +72,16 @@ textarea::placeholder {
 }
 
 ::selection {
-  background: rgba(16, 185, 129, 0.28);
+  background: rgba(231, 244, 239, 0.28);
 }
 
 ::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
+  height: 2px;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B1120;
+  background: #bec3d0;
 }
 
 ::-webkit-scrollbar-thumb {
