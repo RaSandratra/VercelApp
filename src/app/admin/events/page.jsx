@@ -57,7 +57,7 @@ export default function AdminEventsPage() {
   }, [events, search])
 
   return (
-    <div className="space-y-6">
+    <div className="pt-20 space-y-6">
       <section className="rounded-lg border border-white/10 bg-[#1F2937] p-6 shadow-sm">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>

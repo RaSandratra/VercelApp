@@ -43,7 +43,7 @@ export default function PublicNavbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#111827]/95 backdrop-blur">
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#111827]/95 backdrop-blur">
       <nav className="container mx-auto flex items-center justify-between px-4 py-4">
         {/* Logo */}
         <Link
