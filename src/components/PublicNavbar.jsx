@@ -6,8 +6,13 @@ import {
   Bars3Icon,
   XMarkIcon,
   CalendarDaysIcon,
+  HomeIcon,
+  VideoCameraIcon,
+  HeartIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline'
 import { useState } from 'react'
+
 
 export default function PublicNavbar() {
   const pathname = usePathname()
@@ -18,18 +23,22 @@ export default function PublicNavbar() {
     {
       name: 'Accueil',
       href: '/',
+      icon: HomeIcon,
     },
     {
       name: 'Sessions',
       href: '/sessions',
+      icon: VideoCameraIcon,
     },
     {
       name: 'Favoris',
       href: '/favourites',
+      icon: HeartIcon,
     },
     {
       name: 'Connexion',
       href: '/login',
+      icon: UserIcon,
     },
   ]
 
@@ -59,8 +68,8 @@ export default function PublicNavbar() {
         {/* Desktop navigation */}
         <div className="hidden items-center gap-2 md:flex">
           {navigation.map((item) => {
-            const active =
-              pathname === item.href
+            const active = pathname === item.href
+            const Icon = item.icon;
 
             return (
               <Link
@@ -72,7 +81,8 @@ export default function PublicNavbar() {
                     : 'text-gray-300 hover:bg-white/5 hover:text-white'
                 }`}
               >
-                {item.name}
+                <Icon className="h-5 w-5" />
+                <span className="sr-only">{item.name}</span>
               </Link>
             )
           })}
