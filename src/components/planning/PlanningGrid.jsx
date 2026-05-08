@@ -12,7 +12,7 @@ export default function PlanningGrid({ sessions }) {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites()
 
   if (!sessions || sessions.length === 0) {
-    return <div className="text-gray-400 text-center py-8">Aucune session programmÃ©e.</div>
+    return <div className="text-gray-400 text-center py-8">Aucune session programmée.</div>
   }
 
   const rooms = [...new Set(sessions.map(s => s.room).filter(Boolean))].sort()
@@ -40,10 +40,10 @@ export default function PlanningGrid({ sessions }) {
     const favori = isFavorite(session.id)
     if (favori) {
       removeFavorite(session.id)
-      toast('RetirÃ© des favoris', { icon: 'â˜…' })
+      toast('Retiré des favoris', { icon: 'â˜…' })
     } else {
       addFavorite(session.id)
-      toast.success('AjoutÃ© aux favoris !')
+      toast.success('Ajouté aux favoris !')
     }
   }
 
@@ -74,7 +74,7 @@ export default function PlanningGrid({ sessions }) {
                   const session = getSessionAt(time, room)
                   if (!session) {
                     return (
-                      <td key={`${time}-${room}`} className="px-4 py-3 text-gray-300 align-top">â€”</td>
+                      <td key={`${time}-${room}`} className="px-4 py-3 text-gray-300 align-top"> – </td>
                     )
                   }
                   const isLive = liveMap[session.id] || false
@@ -94,7 +94,7 @@ export default function PlanningGrid({ sessions }) {
                           {isLive && <LiveBadge />}
                         </div>
                         {speakers && <div className="text-xs text-gray-400">{speakers}</div>}
-                        <div className="text-xs text-gray-400">jusqu'Ã  {formatTime(session.endTime)}</div>
+                        <div className="text-xs text-gray-400">jusqu'à  {formatTime(session.endTime)}</div>
                         <button
                           onClick={() => handleFavoriteToggle(session)}
                           className={`text-sm mt-1 self-start flex items-center gap-1 transition ${
@@ -134,7 +134,7 @@ export default function PlanningGrid({ sessions }) {
                 <p className="text-xs text-gray-400 mb-1">ðŸ“ {session.room}</p>
               )}
               <p className="text-xs text-gray-400 mb-1">
-                {formatTime(session.startTime)} â€“ {formatTime(session.endTime)}
+                {formatTime(session.startTime)}  –  {formatTime(session.endTime)}
               </p>
               {speakers && <p className="text-xs text-gray-400 mb-2">{speakers}</p>}
               <button
@@ -152,8 +152,3 @@ export default function PlanningGrid({ sessions }) {
     </>
   )
 }
-
-
-
-
-

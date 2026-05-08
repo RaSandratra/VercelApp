@@ -3,11 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const AuthContext = createContext(null)
 
-/**
- * Contexte d'authentification pour les participants (côté client).
- * Stocke un userId et un pseudo dans localStorage pour simuler une session.
- * Ne touche pas à NextAuth (admin).
- */
+
 export function AuthProvider({ children }) {
   const [participant, setParticipant] = useState(null)
   const [loaded, setLoaded] = useState(false)

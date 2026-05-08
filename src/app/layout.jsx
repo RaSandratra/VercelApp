@@ -4,7 +4,7 @@ import PublicNavbar from '../components/PublicNavbar'
 
 export const metadata = {
   title: 'EventSync',
-  description: "Gestion d'Ã©vÃ©nements en temps rÃ©el",
+  description: "Gestion d'événements en temps réel",
 }
 
 export default function RootLayout({ children }) {
@@ -19,8 +19,3 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-
-
-
-
-

@@ -1,31 +1,17 @@
 ﻿import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
 
-
-export async function GET() {
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
+export async function GET(req, { params }) {
   try {
-    const sessions = await prisma.session.findMany({
-      select: { room: true },
-      distinct: ['room'],
-      orderBy: { room: 'asc' },
+    const { id } = await params
+    const session = await prisma.session.findUnique({
+      where: { id },
+      include: { speakers: true, event: true },
     })
-    const rooms = sessions
-      .map(s => s.room)
-      .filter(Boolean)
-      .map(name => ({ name }))
-    return NextResponse.json(rooms)
+    if (!session) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    return NextResponse.json(session)
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
-
-
-
-
-
