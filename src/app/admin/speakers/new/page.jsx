@@ -67,7 +67,7 @@ export default function NewSpeakerPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="pt-20 mx-auto max-w-3xl space-y-6">
       <section className="rounded-lg border border-white/10 bg-[#1F2937] p-6 shadow-sm">
         <p className="text-sm font-bold uppercase tracking-wide text-[#10B981]">
           Annuaire

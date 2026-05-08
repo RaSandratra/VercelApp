@@ -102,7 +102,7 @@ export default function EditSessionPage() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-8">
+    <div className="pt-20 max-w-xl mx-auto p-8">
       <h1 className="mb-6 text-2xl font-bold text-[#F9FAFB]">
         Modifier la session
       </h1>
