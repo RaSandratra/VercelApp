@@ -286,7 +286,7 @@ export default function NewSessionPage() {
             </select>
 
             <span className="text-xs text-gray-400">
-              Maintenez Ctrl ou Cmd pour sélectionner
+              Maintenez Ctrl pour sélectionner
               plusieurs intervenants.
             </span>
           </label>
