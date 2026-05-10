@@ -9,10 +9,13 @@ import {
   BuildingOfficeIcon,
   CalendarDaysIcon,
   ChartBarIcon,
+  MoonIcon,
   PlayCircleIcon,
   SparklesIcon,
+  SunIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
+import { useTheme } from '@/context/ThemeContext'
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Tableau de bord', icon: ChartBarIcon },
@@ -24,6 +27,7 @@ const navItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname()
+  const { isDark, toggleTheme } = useTheme()
 
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-white/10 bg-[#1F2937] shadow-sm lg:flex">
@@ -60,6 +64,19 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="space-y-2 border-t border-white/10 px-3 py-4">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:bg-[#111827] hover:text-[#F9FAFB]"
+        >
+          {isDark ? (
+            <SunIcon className="h-5 w-5" />
+          ) : (
+            <MoonIcon className="h-5 w-5" />
+          )}
+          {isDark ? 'Mode clair' : 'Mode sombre'}
+        </button>
+
         <Link
           href="/"
           className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:bg-[#111827] hover:text-[#F9FAFB]"

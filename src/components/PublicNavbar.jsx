@@ -11,15 +11,19 @@ import {
   HeartIcon,
   UserIcon,
   ArrowRightOnRectangleIcon,
+  MoonIcon,
+  SunIcon,
 } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { useParticipant } from '@/context/AuthContext'
+import { useTheme } from '@/context/ThemeContext'
 
 
 export default function PublicNavbar() {
   const pathname = usePathname()
   const router = useRouter()
   const { participant, logoutParticipant, loaded } = useParticipant()
+  const { isDark, toggleTheme } = useTheme()
   const [mobileOpen, setMobileOpen] =
     useState(false)
 
@@ -80,6 +84,20 @@ export default function PublicNavbar() {
 
         {/* Desktop navigation */}
         <div className="hidden items-center gap-2 md:flex">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+            aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#10B981]"
+          >
+            {isDark ? (
+              <SunIcon className="h-5 w-5" />
+            ) : (
+              <MoonIcon className="h-5 w-5" />
+            )}
+          </button>
+
           {navigation.map((item) => {
             const active = pathname === item.href
             const Icon = item.icon;
@@ -132,6 +150,19 @@ export default function PublicNavbar() {
       {mobileOpen && (
         <div className="border-t border-white/10 bg-[#111827] md:hidden">
           <div className="container mx-auto flex flex-col gap-1 px-4 py-4">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#10B981]"
+            >
+              {isDark ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+              <span>{isDark ? 'Mode clair' : 'Mode sombre'}</span>
+            </button>
+
             {navigation.map((item) => {
               const active =
                 pathname === item.href
