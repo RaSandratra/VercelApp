@@ -53,7 +53,7 @@ export default function AdminSidebar() {
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all ${
                 isActive
                   ? 'bg-[#10B981] text-white shadow-glow'
-                  : 'text-gray-400 hover:bg-[#111827] hover:text-[#F9FAFB]'
+                  : 'text-gray-400 hover:-translate-y-0.5 hover:bg-[#10B981]/10 hover:text-[#10B981]'
               }`}
             >
               <Icon className="h-5 w-5 shrink-0" />
@@ -67,7 +67,7 @@ export default function AdminSidebar() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:bg-[#111827] hover:text-[#F9FAFB]"
+          className="theme-toggle flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold"
         >
           {isDark ? (
             <SunIcon className="h-5 w-5" />
@@ -79,14 +79,14 @@ export default function AdminSidebar() {
 
         <Link
           href="/"
-          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:bg-[#111827] hover:text-[#F9FAFB]"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:-translate-y-0.5 hover:bg-[#10B981]/10 hover:text-[#10B981]"
         >
           <ArrowTopRightOnSquareIcon className="h-5 w-5" />
           Site public
         </Link>
         <button
           onClick={() => signOut({ callbackUrl: '/login' })}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:bg-red-500/10 hover:text-red-300"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-400 hover:-translate-y-0.5 hover:bg-red-500/10 hover:text-red-300"
         >
           <ArrowLeftEndOnRectangleIcon className="h-5 w-5 shrink-0" />
           Déconnexion

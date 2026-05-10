@@ -89,13 +89,16 @@ export default function PublicNavbar() {
             onClick={toggleTheme}
             title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
             aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#10B981]"
+            className="theme-toggle rounded-lg px-4 py-2 text-sm font-semibold"
           >
             {isDark ? (
               <SunIcon className="h-5 w-5" />
             ) : (
               <MoonIcon className="h-5 w-5" />
             )}
+            <span className="hidden lg:inline">
+              {isDark ? 'Clair' : 'Sombre'}
+            </span>
           </button>
 
           {navigation.map((item) => {
@@ -106,10 +109,10 @@ export default function PublicNavbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition hover:-translate-y-0.5 ${
                   active
                     ? 'bg-[#10B981]/15 text-[#10B981]'
-                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    : 'text-gray-300 hover:bg-[#10B981]/10 hover:text-[#10B981]'
                 }`}
               >
                 <Icon className="h-5 w-5" />
@@ -124,7 +127,7 @@ export default function PublicNavbar() {
               onClick={handleParticipantLogout}
               title={`Déconnecter ${participant.pseudo}`}
               aria-label={`Déconnecter ${participant.pseudo}`}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:bg-red-500/10 hover:text-red-300"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:-translate-y-0.5 hover:bg-red-500/10 hover:text-red-300"
             >
               <ArrowRightOnRectangleIcon className="h-5 w-5" />
             </button>
@@ -153,7 +156,7 @@ export default function PublicNavbar() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#10B981]"
+              className="theme-toggle flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-semibold"
             >
               {isDark ? (
                 <SunIcon className="h-5 w-5" />
@@ -177,7 +180,7 @@ export default function PublicNavbar() {
                   className={`rounded-lg px-4 py-3 text-sm font-medium transition ${
                     active
                       ? 'bg-[#10B981]/15 text-[#10B981]'
-                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                      : 'text-gray-300 hover:bg-[#10B981]/10 hover:text-[#10B981]'
                   }`}
                 >
                   {item.name}
