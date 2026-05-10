@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 
 const AuthContext = createContext(null)
+const PARTICIPANT_SESSION_KEY = 'participantSession'
 
 
 export function AuthProvider({ children }) {
@@ -10,7 +11,10 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('participant')
+      // Nettoie l'ancienne session persistante qui laissait explorer sans vraie reconnexion.
+      localStorage.removeItem('participant')
+
+      const stored = sessionStorage.getItem(PARTICIPANT_SESSION_KEY)
       if (stored) setParticipant(JSON.parse(stored))
     } catch {}
     setLoaded(true)
@@ -20,13 +24,16 @@ export function AuthProvider({ children }) {
     const userId = `user_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
     const data = { userId, pseudo, createdAt: new Date().toISOString() }
     setParticipant(data)
-    try { localStorage.setItem('participant', JSON.stringify(data)) } catch {}
+    try { sessionStorage.setItem(PARTICIPANT_SESSION_KEY, JSON.stringify(data)) } catch {}
     return data
   }
 
   const logoutParticipant = () => {
     setParticipant(null)
-    try { localStorage.removeItem('participant') } catch {}
+    try {
+      sessionStorage.removeItem(PARTICIPANT_SESSION_KEY)
+      localStorage.removeItem('participant')
+    } catch {}
   }
 
   return (

@@ -3,6 +3,7 @@ import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from '@/context/AuthContext'
 import { ThemeProvider } from '@/context/ThemeContext'
+import ParticipantRouteGuard from '@/components/ParticipantRouteGuard'
 
 
 export default function Providers({ children }) {
@@ -10,7 +11,9 @@ export default function Providers({ children }) {
     <SessionProvider>
       <ThemeProvider>
         <AuthProvider>
-          {children}
+          <ParticipantRouteGuard>
+            {children}
+          </ParticipantRouteGuard>
           <Toaster
             position="bottom-right"
             toastOptions={{
