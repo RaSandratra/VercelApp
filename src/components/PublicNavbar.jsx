@@ -17,12 +17,13 @@ import {
 import { useState } from 'react'
 import { useParticipant } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeContext'
+import ProfilePhotoButton from '@/components/ProfilePhotoButton'
 
 
 export default function PublicNavbar() {
   const pathname = usePathname()
   const router = useRouter()
-  const { participant, logoutParticipant, loaded } = useParticipant()
+  const { participant, logoutParticipant, updateParticipantPhoto, loaded } = useParticipant()
   const { isDark, toggleTheme } = useTheme()
   const [mobileOpen, setMobileOpen] =
     useState(false)
@@ -121,16 +122,25 @@ export default function PublicNavbar() {
             </span>
           </button>
           {loaded && participant && (
-            <button
-              type="button"
-              onClick={handleParticipantLogout}
-              title={`Déconnecter ${participant.pseudo}`}
-              aria-label={`Déconnecter ${participant.pseudo}`}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:-translate-y-0.5 hover:bg-red-500/10 hover:text-red-300"
-            >
-              <ArrowRightOnRectangleIcon className="h-5 w-5" />
-              <span className="hidden lg:inline">Déconnexion</span>
-            </button>
+            <>
+              <ProfilePhotoButton
+                name={participant.pseudo}
+                photoUrl={participant.photoUrl}
+                onPhotoChange={updateParticipantPhoto}
+                caption="Participant"
+                size="sm"
+              />
+              <button
+                type="button"
+                onClick={handleParticipantLogout}
+                title={`Déconnecter ${participant.pseudo}`}
+                aria-label={`Déconnecter ${participant.pseudo}`}
+                className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:-translate-y-0.5 hover:bg-red-500/10 hover:text-red-300"
+              >
+                <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                <span className="hidden lg:inline">Déconnexion</span>
+              </button>
+            </>
           )}
           {loaded && !participant && (
             <Link
@@ -200,14 +210,24 @@ export default function PublicNavbar() {
             </div>
 
             {loaded && participant && (
-              <button
-                type="button"
-                onClick={handleParticipantLogout}
-                className="flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-red-500/10 hover:text-red-300"
-              >
-                <ArrowRightOnRectangleIcon className="h-5 w-5" />
-                <span>Déconnexion</span>
-              </button>
+              <>
+                <div className="mt-1 px-1">
+                  <ProfilePhotoButton
+                    name={participant.pseudo}
+                    photoUrl={participant.photoUrl}
+                    onPhotoChange={updateParticipantPhoto}
+                    caption="Participant"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleParticipantLogout}
+                  className="flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-red-500/10 hover:text-red-300"
+                >
+                  <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                  <span>Déconnexion</span>
+                </button>
+              </>
             )}
             {loaded && !participant && (
               <Link

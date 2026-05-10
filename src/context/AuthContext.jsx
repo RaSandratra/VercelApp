@@ -36,8 +36,20 @@ export function AuthProvider({ children }) {
     } catch {}
   }
 
+  const updateParticipantPhoto = (photoUrl) => {
+    setParticipant((current) => {
+      if (!current) return current
+
+      const updated = { ...current, photoUrl }
+      try {
+        sessionStorage.setItem(PARTICIPANT_SESSION_KEY, JSON.stringify(updated))
+      } catch {}
+      return updated
+    })
+  }
+
   return (
-    <AuthContext.Provider value={{ participant, loginParticipant, logoutParticipant, loaded }}>
+    <AuthContext.Provider value={{ participant, loginParticipant, logoutParticipant, updateParticipantPhoto, loaded }}>
       {children}
     </AuthContext.Provider>
   )
