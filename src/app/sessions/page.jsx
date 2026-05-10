@@ -8,6 +8,7 @@ import {
   UsersIcon,
 } from '@heroicons/react/24/outline'
 import { prisma } from '@/lib/prisma'
+import PlanningToggleButton from '@/components/planning/PlanningToggleButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -68,6 +69,13 @@ export default async function SessionsPage() {
             >
               Mes favoris
             </Link>
+
+            <Link
+              href="/planning"
+              className="inline-flex items-center justify-center rounded-lg bg-[#10B981] px-4 py-2 text-sm font-semibold text-white shadow-glow hover:bg-emerald-700"
+            >
+              Mon planning
+            </Link>
           </div>
         </div>
       </section>
@@ -88,10 +96,19 @@ export default async function SessionsPage() {
           </div>
         ) : (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {sessions.map((session) => (
-              <Link
+            {sessions.map((session) => {
+              const sessionSnapshot = {
+                id: session.id,
+                title: session.title,
+                startTime: session.startTime.toISOString(),
+                endTime: session.endTime.toISOString(),
+                room: session.room,
+                eventTitle: session.event.title,
+              }
+
+              return (
+              <article
                 key={session.id}
-                href={`/sessions/${session.id}`}
                 className="group flex min-h-80 flex-col rounded-lg border border-white/10 bg-[#1F2937] p-6 shadow-sm hover:-translate-y-1 hover:border-[#10B981] hover:shadow-md"
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
@@ -155,12 +172,21 @@ export default async function SessionsPage() {
                 </div>
 
                 <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-sm font-semibold text-[#10B981]">
-                  <span>Ouvrir la session</span>
+                  <PlanningToggleButton
+                    session={sessionSnapshot}
+                    compact
+                  />
 
-                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <Link
+                    href={`/sessions/${session.id}`}
+                    className="inline-flex items-center gap-1 hover:text-[#10B981]"
+                  >
+                    <span>Ouvrir</span>
+                    <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
                 </div>
-              </Link>
-            ))}
+              </article>
+            )})}
           </div>
         )}
       </section>

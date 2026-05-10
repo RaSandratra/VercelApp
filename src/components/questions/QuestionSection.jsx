@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { useParticipant } from '@/context/AuthContext'
 import {
   UserCircleIcon,
@@ -15,6 +16,7 @@ export default function QuestionSection({
   endTime,
 }) {
   const { participant, loaded } = useParticipant()
+  const { data: adminSession } = useSession()
 
   const [questions, setQuestions] = useState([])
   const [content, setContent] = useState('')
@@ -26,6 +28,15 @@ export default function QuestionSection({
   const [userVotes, setUserVotes] = useState(
     new Set()
   )
+
+  const adminEmail = adminSession?.user?.email
+  const voterKey = participant?.userId
+    ? `participant:${participant.userId}`
+    : adminEmail
+      ? `admin:${adminEmail}`
+      : 'visitor:anonymous'
+
+  const voteStorageKey = `userUpvotes:${voterKey}`
 
   // Recalcul isLive côté client toutes les 10 s
   const [isLive, setIsLive] = useState(isLiveInitial)
@@ -49,17 +60,18 @@ export default function QuestionSection({
     return () => clearInterval(interval)
   }, [startTime, endTime])
 
-  // Charger les votes localStorage
+  // Charger les votes localStorage pour l'identité courante.
   useEffect(() => {
     try {
-      const stored =
-        localStorage.getItem('userUpvotes')
+      const stored = localStorage.getItem(voteStorageKey)
 
       if (stored) {
         setUserVotes(new Set(JSON.parse(stored)))
+      } else {
+        setUserVotes(new Set())
       }
     } catch {}
-  }, [])
+  }, [voteStorageKey])
 
   // Charger les questions — toujours visible (public)
   const fetchQuestions = useCallback(async () => {
@@ -89,7 +101,7 @@ export default function QuestionSection({
     return () => clearInterval(interval)
   }, [sessionId, isLive, fetchQuestions])
 
-  // Upvote — accessible aux visiteurs non connectés
+  // Upvote — un vote par question et par identité locale
   const handleUpvote = async (questionId) => {
     if (userVotes.has(questionId)) return
 
@@ -110,7 +122,7 @@ export default function QuestionSection({
 
         try {
           localStorage.setItem(
-            'userUpvotes',
+            voteStorageKey,
             JSON.stringify([...newVotes])
           )
         } catch {}

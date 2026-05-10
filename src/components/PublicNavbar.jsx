@@ -39,19 +39,16 @@ export default function PublicNavbar() {
       icon: VideoCameraIcon,
     },
     {
+      name: 'Planning',
+      href: '/planning',
+      icon: CalendarDaysIcon,
+    },
+    {
       name: 'Favoris',
       href: '/favourites',
       icon: HeartIcon,
     },
   ]
-
-  if (!loaded || !participant) {
-    navigation.push({
-      name: 'Connexion',
-      href: '/login',
-      icon: UserIcon,
-    })
-  }
 
   const handleParticipantLogout = () => {
     logoutParticipant()
@@ -60,12 +57,12 @@ export default function PublicNavbar() {
   }
 
   return (
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#111827]/95 backdrop-blur">
-      <nav className="container mx-auto flex items-center justify-between px-4 py-4">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#111827]/95 backdrop-blur">
+      <nav className="container relative mx-auto flex items-center justify-between px-4 py-4">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-3 text-white transition hover:opacity-90"
+          className="relative z-10 flex items-center gap-3 text-white transition hover:opacity-90"
         >
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#10B981] shadow-lg shadow-emerald-500/20">
             <CalendarDaysIcon className="h-5 w-5 text-white" />
@@ -82,25 +79,8 @@ export default function PublicNavbar() {
           </div>
         </Link>
 
-        {/* Desktop navigation */}
-        <div className="hidden items-center gap-2 md:flex">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-            aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-            className="theme-toggle rounded-lg px-4 py-2 text-sm font-semibold"
-          >
-            {isDark ? (
-              <SunIcon className="h-5 w-5" />
-            ) : (
-              <MoonIcon className="h-5 w-5" />
-            )}
-            <span className="hidden lg:inline">
-              {isDark ? 'Clair' : 'Sombre'}
-            </span>
-          </button>
-
+        {/* Desktop centered navigation */}
+        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex">
           {navigation.map((item) => {
             const active = pathname === item.href
             const Icon = item.icon;
@@ -120,7 +100,26 @@ export default function PublicNavbar() {
               </Link>
             )
           })}
+        </div>
 
+        {/* Desktop actions */}
+        <div className="relative z-10 hidden items-center gap-2 md:flex">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            title={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+            aria-label={isDark ? 'Passer en mode clair' : 'Passer en mode sombre'}
+            className="theme-toggle rounded-lg px-4 py-2 text-sm font-semibold"
+          >
+            {isDark ? (
+              <SunIcon className="h-5 w-5" />
+            ) : (
+              <MoonIcon className="h-5 w-5" />
+            )}
+            <span className="hidden lg:inline">
+              {isDark ? 'Clair' : 'Sombre'}
+            </span>
+          </button>
           {loaded && participant && (
             <button
               type="button"
@@ -130,7 +129,17 @@ export default function PublicNavbar() {
               className="rounded-lg px-4 py-2 text-sm font-medium text-gray-300 transition hover:-translate-y-0.5 hover:bg-red-500/10 hover:text-red-300"
             >
               <ArrowRightOnRectangleIcon className="h-5 w-5" />
+              <span className="hidden lg:inline">Déconnexion</span>
             </button>
+          )}
+          {loaded && !participant && (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 rounded-lg bg-[#10B981] px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-emerald-700"
+            >
+              <UserIcon className="h-5 w-5" />
+              <span>Connexion</span>
+            </Link>
           )}
         </div>
 
@@ -153,19 +162,6 @@ export default function PublicNavbar() {
       {mobileOpen && (
         <div className="border-t border-white/10 bg-[#111827] md:hidden">
           <div className="container mx-auto flex flex-col gap-1 px-4 py-4">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="theme-toggle flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-semibold"
-            >
-              {isDark ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-              <span>{isDark ? 'Mode clair' : 'Mode sombre'}</span>
-            </button>
-
             {navigation.map((item) => {
               const active =
                 pathname === item.href
@@ -188,6 +184,21 @@ export default function PublicNavbar() {
               )
             })}
 
+            <div className="mt-2 border-t border-white/10 pt-3">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="theme-toggle flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-semibold"
+              >
+                {isDark ? (
+                  <SunIcon className="h-5 w-5" />
+                ) : (
+                  <MoonIcon className="h-5 w-5" />
+                )}
+                <span>{isDark ? 'Mode clair' : 'Mode sombre'}</span>
+              </button>
+            </div>
+
             {loaded && participant && (
               <button
                 type="button"
@@ -197,6 +208,16 @@ export default function PublicNavbar() {
                 <ArrowRightOnRectangleIcon className="h-5 w-5" />
                 <span>Déconnexion</span>
               </button>
+            )}
+            {loaded && !participant && (
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="mt-1 flex items-center gap-3 rounded-lg bg-[#10B981] px-4 py-3 text-sm font-semibold text-white shadow-glow"
+              >
+                <UserIcon className="h-5 w-5" />
+                <span>Connexion</span>
+              </Link>
             )}
           </div>
         </div>

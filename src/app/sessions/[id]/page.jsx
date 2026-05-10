@@ -7,6 +7,7 @@ import {
   SpeakerAvatar,
 } from '@/components/ui'
 import Link from 'next/link'
+import PlanningToggleButton from '@/components/planning/PlanningToggleButton'
 
 export default async function SessionPage({
   params,
@@ -28,6 +29,15 @@ export default async function SessionPage({
     session.endTime
   )
 
+  const sessionSnapshot = {
+    id: session.id,
+    title: session.title,
+    startTime: session.startTime.toISOString(),
+    endTime: session.endTime.toISOString(),
+    room: session.room,
+    eventTitle: session.event.title,
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
       <div className="container mx-auto max-w-3xl px-4 py-8">
@@ -44,6 +54,17 @@ export default async function SessionPage({
           <p className="leading-relaxed text-gray-300">
             {session.description}
           </p>
+
+          <div className="mt-5 flex flex-wrap gap-3 border-t border-gray-700 pt-5">
+            <PlanningToggleButton session={sessionSnapshot} />
+
+            <Link
+              href="/planning"
+              className="inline-flex items-center justify-center rounded-lg border border-gray-700 px-4 py-2 text-sm font-semibold text-gray-300 hover:border-emerald-400 hover:bg-[#10B981]/15 hover:text-emerald-300"
+            >
+              Voir mon planning
+            </Link>
+          </div>
         </div>
 
         {/* Informations de la session */}
