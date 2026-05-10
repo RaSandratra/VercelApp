@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   Bars3Icon,
   XMarkIcon,
@@ -18,6 +18,7 @@ import { useParticipant } from '@/context/AuthContext'
 
 export default function PublicNavbar() {
   const pathname = usePathname()
+  const router = useRouter()
   const { participant, logoutParticipant, loaded } = useParticipant()
   const [mobileOpen, setMobileOpen] =
     useState(false)
@@ -51,6 +52,7 @@ export default function PublicNavbar() {
   const handleParticipantLogout = () => {
     logoutParticipant()
     setMobileOpen(false)
+    router.push('/login')
   }
 
   return (
