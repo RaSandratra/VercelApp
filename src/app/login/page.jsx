@@ -90,7 +90,7 @@ export default function LoginPage() {
           {/* Header */}
           <div className="mb-8 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#C084B5]/35 bg-[#C084B5]/12 px-4 py-2 text-sm font-black uppercase tracking-wide text-[#F4D9EC] shadow-lg shadow-black/10">
-              <SparklesIcon className="h-4 w-4 text-[#C084B5]" />
+        
               <span>Event Access</span>
             </div>
           </div>
