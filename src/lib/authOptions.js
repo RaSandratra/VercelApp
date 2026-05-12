@@ -27,7 +27,7 @@ export const authOptions = {
       },
     }),
   ],
-  // BUG FIX: secret explicitement défini (obligatoire en production)
+
   secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
   pages: { signIn: "/admin/login" },
