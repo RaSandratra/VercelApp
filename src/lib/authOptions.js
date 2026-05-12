@@ -11,7 +11,7 @@ export const authOptions = {
         password: { label: "Mot de passe", type: "password" },
       },
       async authorize(credentials) {
-        // BUG FIX: Validation des credentials avant la requête DB
+    
         if (!credentials?.email || !credentials?.password) return null
         try {
           const admin = await prisma.admin.findUnique({
@@ -42,4 +42,5 @@ export const authOptions = {
     },
   },
 }
+
 console.log("SECRET:", process.env.NEXTAUTH_SECRET)
