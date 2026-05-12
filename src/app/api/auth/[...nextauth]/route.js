@@ -45,6 +45,18 @@ const handler = NextAuth({
     strategy: "jwt",
   },
 
+  cookies: {
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      },
+    },
+  },
+
   pages: {
     signIn: "/admin/login",
   },
