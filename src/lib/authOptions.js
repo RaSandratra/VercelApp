@@ -28,7 +28,7 @@ export const authOptions = {
     }),
   ],
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: "8d9f2a6b7c1e4f5a9b3d8e7c6f2a1b4d",
   session: { strategy: "jwt" },
   pages: { signIn: "/admin/login" },
   callbacks: {
