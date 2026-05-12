@@ -1,8 +1,7 @@
 ﻿import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-// BUG FIX: Cette route Ã©tait totalement manquante.
-// La page /favourites appelle /api/sessions?ids=... mais la route n'existait pas.
+
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url)
