@@ -4,15 +4,13 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 const handler = NextAuth({
-  secret: "8d9f2a6b7c1e4f5a9b3d8e7c6f2a1b4d",
-
   providers: [
     CredentialsProvider({
       name: "Credentials",
 
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Mot de passe", type: "password" },
+        password: { label: "Password", type: "password" },
       },
 
       async authorize(credentials) {
@@ -21,17 +19,23 @@ const handler = NextAuth({
         }
 
         const admin = await prisma.admin.findUnique({
-          where: { email: credentials.email },
+          where: {
+            email: credentials.email,
+          },
         })
 
-        if (!admin) return null
+        if (!admin) {
+          return null
+        }
 
-        const valid = await bcrypt.compare(
+        const isValid = await bcrypt.compare(
           credentials.password,
           admin.password
         )
 
-        if (!valid) return null
+        if (!isValid) {
+          return null
+        }
 
         return {
           id: admin.id,
@@ -41,20 +45,10 @@ const handler = NextAuth({
     }),
   ],
 
+  secret: process.env.NEXTAUTH_SECRET,
+
   session: {
     strategy: "jwt",
-  },
-
-  cookies: {
-    sessionToken: {
-      name: "next-auth.session-token",
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: true,
-      },
-    },
   },
 
   pages: {
