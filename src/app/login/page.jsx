@@ -11,11 +11,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline'
 
-/**
- * Page de connexion unifiée.
- * Onglet Admin : via NextAuth (credentials)
- * Onglet Participant : pseudo + session localStorage
- */
+
 export default function LoginPage() {
   const [tab, setTab] = useState('participant')
 
@@ -23,7 +19,7 @@ export default function LoginPage() {
 
   const { loginParticipant } = useParticipant()
 
-  // --- Formulaire admin ---
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [adminError, setAdminError] = useState('')
@@ -87,11 +83,11 @@ export default function LoginPage() {
   return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-600 to-emerald-800 px-4 py-12">
         <div className="w-full max-w-md">
-          {/* Header */}
+       
           <div className="mb-8 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#C084B5]/35 bg-[#C084B5]/12 px-4 py-2 text-sm font-black uppercase tracking-wide text-[#F4D9EC] shadow-lg shadow-black/10">
-        
-              <span>Event Access</span>
+  
+          <span>Event Access</span>
             </div>
           </div>
 
